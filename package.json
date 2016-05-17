@@ -1,0 +1,21 @@
+{
+  "name": "retro_snake_game_phaser",
+  "version": "0.0.1",
+  "description": "retro snake game with phaser",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "phaser"
+  ],
+  "author": "Jenny Qian",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-tasks": "^3.5.0",
+    "time-grunt": "^1.3.0"
+  }
+}
