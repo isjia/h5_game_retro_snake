@@ -114,6 +114,23 @@ var Game = {
       // Mark it the first cell.
       snake.push(lastCell);
       firstCell = lastCell;
+
+      // Increase length of snake if an apple had been eaten.
+      // Create a block in the back of the snake with the old position of the previous last block
+      // (it has moved now along with the rest of the snake.)
+      if (addNew){
+        snake.unshift(game.add.sprite(oldLastCellx, oldLastCelly, 'snake'));
+        addNew = false;
+      }
+
+      // Check for apple collision.
+      this.appleCollision();
+
+      // Check for collision with self. Parameter is the head of the snake.
+      this.selfCollision(firstCell);
+
+      // Check with collision with wall. Parameter is the head of the snake.
+      this.wallCollision(firstCell);
     }
   },
 
@@ -126,5 +143,46 @@ var Game = {
 
     // Add a new apple.
     apple = game.add.sprite(randomX, randomY, 'apple');
+  },
+
+  appleCollision: function(){
+    // Check if any part of the snake is overlapping the apple.
+    // This is needed if the apple spawns inside of the snake.
+    for (var i = 0; i<snake.length; i++) {
+      if(snake[i].x == apple.x && snake[i].y==apple.y) {
+        // Next time the snake moves, a new block will be added to its length.
+        addNew = true;
+
+        // Destroy the old apple.
+        apple.destroy();
+
+        // Make a new one.
+        this.generateApple();
+
+        // Increase score.
+        score++;
+
+        // Refresh scoreboard.
+        scoreTextValue.text = score.toString();
+      }
+    }
+  },
+
+  selfCollision: function(head){
+
+    // Check if the head of the snake overlaps with any part of the snake.
+    for (var i = 0; i < snake.length-1; i++){
+      if(head.x == snake[i].x && head.y == snake[i].y){
+        // if so, go to game over screen.
+        game.state.start('Game_Over');
+      }
+    }
+  },
+
+  wallCollision: function(head){
+    // Check if the head of the snake is in the boundaries of the game field.
+    if (head.x >= 600 || head.x < 0 || head.y >= 450 || head.y < 0){
+      game.state.start('Game_Over');
+    }
   }
 };
